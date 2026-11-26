@@ -1,0 +1,47 @@
+{
+  "name": "@gorth/resource-interaction-server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": ".vercel/output/functions/__server.func/index.mjs",
+  "packageManager": "bun@1.4.4",
+  "scripts": {
+    "prettier": "prettier . --write",
+    "dev": "nitro dev --port 5053 --host 0.0.0.0",
+    "build": "nitro build",
+    "typecheck": "tsc --noEmit",
+    "database:generate": "drizzle-kit generate",
+    "database:push": "drizzle-kit push",
+    "test": "vitest run --configLoader native --no-cache",
+    "test:types": "tsc --noEmit -p tsconfig.test.json",
+    "start": "nitro preview",
+    "preview": "nitro preview --port 5053 --host 0.0.0.0",
+    "test:artifact": "node tests/vercel-build.mjs",
+    "test:cloud": "vitest run --config vitest.cloud.config.ts"
+  },
+  "dependencies": {
+    "@gorth-com/principle": "0.0.0-alpha.12",
+    "@gorth-com/structure": "0.0.0-alpha.12",
+    "@vercel/functions": "^3.11.3",
+    "@vercel/otel": "^2.3.0",
+    "better-auth": "^1.7.27",
+    "dotenv": "^18.0.10",
+    "drizzle-orm": "1.0.0-rc.4",
+    "hono": "^4.13.21",
+    "nitro": "3.0.261103-rc",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.10.1",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "1.0.0-rc.4",
+    "typescript": "^5.9.3",
+    "vitest": "5.1.1"
+  },
+  "engines": {
+    "node": "24.x",
+    "bun": "1.4.4"
+  }
+}

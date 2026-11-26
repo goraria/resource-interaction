@@ -1,0 +1,59 @@
+@gorth/resource
+resource-interaction
+Public API contract
+├── /resource/summary/:resourceType?id=:resourceId
+├── /resource/state/:resourceType?id=:resourceId
+├── /resource/comment/:resourceType?id=:resourceId
+├── /resource/review/:resourceType?id=:resourceId
+├── /resource/react/:resourceType?id=:resourceId
+├── /resource/react/comment?id=:commentId
+├── /resource/react/review?id=:reviewId
+├── /resource/bookmark/:resourceType?id=:resourceId&list=:list
+├── /resource/rating/:resourceType?id=:resourceId
+├── /resource/follow/:resourceType?id=:resourceId
+├── /resource/subscribe/:resourceType?id=:resourceId
+├── /resource/share/:resourceType?id=:resourceId
+├── /resource/vote/:resourceType?id=:resourceId
+└── /resource/report/:resourceType?id=:resourceId
+
+`:resourceType` is an open domain value such as video, movie, short, tweet,
+comic, novel, manga, task, or product. Protected requests derive the owning
+application from the verified OAuth token instead of accepting it in the path.
+
+├── reaction
+│   ├── like
+│   ├── dislike
+│   ├── emoji
+│   └── reaction-count
+│
+├── comment
+│   ├── comment
+│   ├── reply
+│   ├── thread
+│   ├── edit
+│   └── delete
+│
+├── bookmark
+│   ├── bookmark
+│   ├── favorite
+│   ├── collection
+│   └── saved-resource
+│
+├── rating
+│   ├── rating
+│   ├── review
+│   ├── rating-summary
+│   └── verified-reference
+│
+├── relation
+│   ├── follow
+│   ├── subscribe
+│   ├── share
+│   ├── vote
+│   └── report
+│
+└── resource
+    ├── resource-type
+    ├── resource-id
+    ├── counter
+    └── metadata

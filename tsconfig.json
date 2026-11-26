@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": [
+      "ES2024"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "types": [
+      "node"
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "incremental": false
+  },
+  "include": [
+    "plugins/**/*.ts",
+    "tasks/**/*.ts",
+    "app/**/*.ts",
+    "configs/**/*.ts",
+    "controllers/**/*.ts",
+    "database/**/*.ts",
+    "lib/**/*.ts",
+    "utils/**/*.ts",
+    "middlewares/**/*.ts",
+    "routes/**/*.ts",
+    "routes/.well-known/**/*.ts",
+    "schemas/**/*.ts",
+    "models/**/*.ts",
+    "services/**/*.ts",
+    "types/**/*.ts",
+    "drizzle.config.ts",
+    "nitro.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-worker",
+    ".nitro",
+    ".output",
+    ".output-worker",
+    ".vercel",
+    "pkg",
+    "temp"
+  ]
+}

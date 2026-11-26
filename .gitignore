@@ -1,0 +1,19 @@
+.pnpm-store/
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+
+# Nitro build output
+.nitro/
+.output/
+.output-worker/
+
+.vercel/
+
+# Keep deployment metadata and private environment files out of source control.
+.vercel/
+.env
+.env.*
+!.env.example
