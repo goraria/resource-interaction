@@ -4,3 +4,4 @@ import { actHealth } from "@/controllers/health";
 export const sharedRoutes = new Hono();
 
 sharedRoutes.get("/health", actHealth);
+sharedRoutes.get("/", actHealth);

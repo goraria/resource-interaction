@@ -36,7 +36,13 @@ export function serviceHttp(options: ServiceHttpOptions): Middleware {
       limit: 100,
       windowMs: 60_000,
       store: options.store ?? httpRateLimitStore,
-      skip: (request) => new URL(request.url).pathname === "/health",
+      skip: (request) => {
+        const { pathname } = new URL(request.url);
+        return (
+          (request.method === "GET" || request.method === "HEAD") &&
+          (pathname === "/" || pathname === "/health")
+        );
+      },
       // Preserve the host's current proxy policy; never infer an identity from these headers.
       key: (request) =>
         (!options.insightProxy &&
