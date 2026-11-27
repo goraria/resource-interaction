@@ -1,4 +1,4 @@
-export { httpRateLimitTable } from "@/database/http-rate-limit-schema";
+export { rateLimit } from "@/database/rate-limit";
 import { sql } from "drizzle-orm";
 export { taskPolicyProjectionTable, taskPolicyGrantTable } from "@/database/task-policy";
 import { relations } from "drizzle-orm/_relations";

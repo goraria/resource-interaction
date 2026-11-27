@@ -4,7 +4,7 @@ The host uses the published Principle alpha.10 `createNitroMiddleware`. Native H
 
 ## Deployment prerequisite
 
-Apply `database/migrations/20261112-http-rate-limit.sql` to this service's PostgreSQL database **before deploying this code**. This is additive infrastructure DDL, with no business/auth data change. Runtime never creates tables. Missing tables or storage errors return 503; there is no Map fallback. Health probes and valid CORS preflights skip quota storage.
+Apply `database/migrations/20261128-schema-rate-limit.sql` before deploying. The table uses `count` and `last_request` with an atomic fixed window. Existing counters keep their expiry. Older deployments continue to use the same rows through the previous columns and view. After all deployments and rollback targets use the new contract, apply `database/operations/retire-legacy-rate-limit.sql`. Health probes and valid CORS preflights skip quota storage.
 
 The quota is 100 requests per client key per 60 seconds. A parameterized INSERT ... ON CONFLICT atomically increments or resets the window. Service-specific prefixes keep independent quotas even if services share a database. Only SHA-256 digests of keys are persisted. Existing proxy-header selection is preserved; deployment must ensure the trusted ingress overwrites those headers.
 

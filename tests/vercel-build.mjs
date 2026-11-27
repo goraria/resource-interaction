@@ -21,8 +21,9 @@ let quotaQueries = 0;
 globalThis.resourceInteractionPool = {
   async query(sql, [, now, windowMs]) {
     quotaQueries++;
-    assert.match(sql, /INSERT INTO http_rate_limit/);
-    return { rows: [{ hits: 1, reset_at: now + windowMs }] };
+    assert.match(sql, /INSERT INTO rate_limit/);
+    assert.equal(windowMs, 60_000);
+    return { rows: [{ count: 1, last_request: now }] };
   },
 };
 const nativeResponse = globalThis.Response;

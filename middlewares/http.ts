@@ -2,7 +2,7 @@ import { createNitroMiddleware } from "@gorth-com/principle/configs/nitro";
 import type { RequestRateLimitOptions } from "@gorth-com/principle/modules/rate-limit";
 import { toResponse, type H3Event, type Middleware } from "nitro/h3";
 import { handleServiceError } from "@/middlewares/01.errors";
-import { httpRateLimitStore } from "@/database/http-rate-limit";
+import { rateLimitStore } from "@/models/rate-limit";
 
 interface ServiceHttpOptions {
   maxBodySize: number;
@@ -35,7 +35,7 @@ export function serviceHttp(options: ServiceHttpOptions): Middleware {
     rateLimit: {
       limit: 100,
       windowMs: 60_000,
-      store: options.store ?? httpRateLimitStore,
+      store: options.store ?? rateLimitStore,
       skip: (request) => {
         const { pathname } = new URL(request.url);
         return (
