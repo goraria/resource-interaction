@@ -1,11 +1,11 @@
-import type { ApiEnv } from "@/types/auth";
+import type { Binding, Event } from "@/utils/interface";
 import type { MiddlewareHandler } from "hono";
-import type { ApiContext } from "@/types/auth";
+
 import { HTTPError } from "nitro/h3";
 import { verifyMachineRequest } from "@/lib/auth/machine";
 import { serviceAuthFailure } from "@/lib/auth/verification";
-export function requireTaskPolicyEvent(): MiddlewareHandler<ApiEnv> {
-  return async (context: ApiContext, next) => {
+export function requireTaskPolicyEvent(): MiddlewareHandler<Binding> {
+  return async (context: Event, next) => {
     try {
       await verifyMachineRequest(context.req.raw, "task:resource:policy");
     } catch (error) {

@@ -1,10 +1,10 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { createHash } from "node:crypto";
 import { taskPolicySnapshotSchema } from "@/schemas/task-policy-sync";
 import { rawReceiveTaskPolicySnapshot as receiveTaskPolicySnapshotServices } from "@/models/task-policy-projection";
 
 import { ServiceError } from "@/lib/errors";
-export async function actReceiveTaskPolicySnapshot(context: ApiContext) {
+export async function actReceiveTaskPolicySnapshot(context: Event) {
   const body = context.get("taskPolicyBody")!;
   let parsed: unknown;
   try {

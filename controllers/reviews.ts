@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import { paginationSchema, uuidSchema } from "@/schemas/common";
 import { createReviewSchema, updateReviewSchema } from "@/schemas/reviews";
@@ -9,7 +9,7 @@ import {
   rawUpdateReview as updateReviewServices,
 } from "@/models/reviews";
 
-export async function actListReviews(context: ApiContext) {
+export async function actListReviews(context: Event) {
   const { limit, offset } = paginationSchema.parse(getQueryValues(context.req.raw));
   return context.json(
     await listReviewsServices(
@@ -20,7 +20,7 @@ export async function actListReviews(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateReview(context: ApiContext) {
+export async function actCreateReview(context: Event) {
   const review = await createReviewServices(
     uuidSchema.parse(context.req.param("id")!),
     createReviewSchema.parse(await readRequestBody(context.req)),
@@ -31,7 +31,7 @@ export async function actCreateReview(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actUpdateReview(context: ApiContext) {
+export async function actUpdateReview(context: Event) {
   return context.json(
     await updateReviewServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -41,7 +41,7 @@ export async function actUpdateReview(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteReview(context: ApiContext) {
+export async function actDeleteReview(context: Event) {
   await deleteReviewServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,

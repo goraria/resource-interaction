@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import { rawFilterTaskResourceRecords } from "@/services/task-policy";
 import { paginationSchema, uuidSchema } from "@/schemas/common";
@@ -36,14 +36,14 @@ import {
   rawVoteOnResource as voteOnResourceServices,
 } from "@/services/interactions";
 
-export async function actListMyFollows(context: ApiContext) {
+export async function actListMyFollows(context: Event) {
   const { limit, offset } = paginationSchema.parse(getQueryValues(context.req.raw));
   return context.json(
     await listMyFollowsServices(context.get("auth")!, limit, offset),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actFollowResource(context: ApiContext) {
+export async function actFollowResource(context: Event) {
   return context.json(
     await followResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -53,14 +53,14 @@ export async function actFollowResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnfollowResource(context: ApiContext) {
+export async function actUnfollowResource(context: Event) {
   await unfollowResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actSubscribeResource(context: ApiContext) {
+export async function actSubscribeResource(context: Event) {
   return context.json(
     await subscribeResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -70,14 +70,14 @@ export async function actSubscribeResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnsubscribeResource(context: ApiContext) {
+export async function actUnsubscribeResource(context: Event) {
   await unsubscribeResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actGetMyResourceInteractionState(context: ApiContext) {
+export async function actGetMyResourceInteractionState(context: Event) {
   return context.json(
     await getMyResourceInteractionStateServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -86,7 +86,7 @@ export async function actGetMyResourceInteractionState(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actListMySaves(context: ApiContext) {
+export async function actListMySaves(context: Event) {
   const { limit, offset } = paginationSchema.parse(getQueryValues(context.req.raw));
   const rawType = getQueryValues(context.req.raw)["type"];
   const type = rawType ? saveTypeSchema.parse(rawType) : undefined;
@@ -115,7 +115,7 @@ export async function actListMySaves(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actSaveResource(context: ApiContext) {
+export async function actSaveResource(context: Event) {
   return context.json(
     await saveResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -126,7 +126,7 @@ export async function actSaveResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnsaveResource(context: ApiContext) {
+export async function actUnsaveResource(context: Event) {
   await unsaveResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     saveTypeSchema.parse(context.req.param("type")!),
@@ -134,7 +134,7 @@ export async function actUnsaveResource(context: ApiContext) {
   );
   return new Response(null, { status: 204 });
 }
-export async function actGetResourceReactionSummary(context: ApiContext) {
+export async function actGetResourceReactionSummary(context: Event) {
   return context.json(
     await getResourceReactionSummaryServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -142,7 +142,7 @@ export async function actGetResourceReactionSummary(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actReactToResource(context: ApiContext) {
+export async function actReactToResource(context: Event) {
   return context.json(
     await reactToResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -152,14 +152,14 @@ export async function actReactToResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveResourceReaction(context: ApiContext) {
+export async function actRemoveResourceReaction(context: Event) {
   await removeResourceReactionServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actVoteOnResource(context: ApiContext) {
+export async function actVoteOnResource(context: Event) {
   return context.json(
     await voteOnResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -169,7 +169,7 @@ export async function actVoteOnResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actReactToComment(context: ApiContext) {
+export async function actReactToComment(context: Event) {
   return context.json(
     await reactToCommentServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -180,14 +180,14 @@ export async function actReactToComment(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveCommentReaction(context: ApiContext) {
+export async function actRemoveCommentReaction(context: Event) {
   await removeCommentReactionServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actReactToReview(context: ApiContext) {
+export async function actReactToReview(context: Event) {
   return context.json(
     await reactToReviewServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -197,14 +197,14 @@ export async function actReactToReview(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveReviewReaction(context: ApiContext) {
+export async function actRemoveReviewReaction(context: Event) {
   await removeReviewReactionServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actGetRatingSummary(context: ApiContext) {
+export async function actGetRatingSummary(context: Event) {
   return context.json(
     await getRatingSummaryServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -212,7 +212,7 @@ export async function actGetRatingSummary(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRateResource(context: ApiContext) {
+export async function actRateResource(context: Event) {
   return context.json(
     await rateResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -222,7 +222,7 @@ export async function actRateResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveRating(context: ApiContext) {
+export async function actRemoveRating(context: Event) {
   return context.json(
     await removeRatingServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -231,7 +231,7 @@ export async function actRemoveRating(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actShareResource(context: ApiContext) {
+export async function actShareResource(context: Event) {
   const share = await shareResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     shareSchema.parse(await readRequestBody(context.req)),

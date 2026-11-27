@@ -1,9 +1,9 @@
-import type { ApiContext } from "@/types/auth";
-import { resourceReadScopes, resourceWriteScopes } from "@/lib/constants";
+import type { Event } from "@/utils/interface";
+import { resourceReadScopes, resourceWriteScopes } from "@/utils/constant";
 import { authUrl } from "@/utils/environment";
 import { getServiceOrigin } from "@/utils/sso-directory";
 
-export async function actResourceMetadata(context: ApiContext) {
+export async function actResourceMetadata(context: Event) {
   if (!authUrl) {
     return context.json(
       { error: "resource_metadata_not_configured" },

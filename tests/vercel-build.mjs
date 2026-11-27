@@ -63,11 +63,22 @@ for (const [path, method, expected] of checks) {
   const response = await handler.fetch(new Request("https://service.fixture.test" + path, { method }));
   assert.equal(response.status, expected, method + " " + path);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
-  if (path === "/health") {
+  if (path === "/" || path === "/health") {
     assert.equal(upstreamRequests, upstreamBefore, "health must not call SSO or another upstream");
     assert.equal(quotaQueries, quotaBefore, "health must not read the quota store");
     if (method === "HEAD") assert.equal(await response.text(), "");
-    else assert.match((await response.json()).status, /^ok$/i);
+    else {
+      const payload = await response.json();
+      const status = { status: "ok", service: "resource-interaction" };
+      if (path === "/health") {
+        assert.equal(typeof payload.timestamp, "string");
+        assert.equal(new Date(payload.timestamp).toISOString(), payload.timestamp);
+        assert.ok(Number.isFinite(payload.uptime) && payload.uptime >= 0);
+        assert.deepEqual(payload, { ...status, timestamp: payload.timestamp, uptime: payload.uptime });
+      } else {
+        assert.deepEqual(payload, status);
+      }
+    }
   } else {
     await response.arrayBuffer();
   }

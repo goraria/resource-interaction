@@ -12,7 +12,7 @@ import { rawReadTaskPageGrants } from "@/models/task-policy-projection";
 import { assertSocialAccess } from "@/services/social-policy";
 import { assertReaderAccess } from "@/services/reader-policy";
 import { assertVideoAccess } from "@/services/video-policy";
-import type { AuthContext } from "@/types/auth";
+import type { AuthContext } from "@/utils/interface";
 import type {
   TaskResourceAccess,
   TaskResourceLookup,

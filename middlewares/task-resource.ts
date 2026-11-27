@@ -1,6 +1,6 @@
-import type { ApiEnv } from "@/types/auth";
+import type { Binding, Event } from "@/utils/interface";
 import type { MiddlewareHandler } from "hono";
-import type { ApiContext } from "@/types/auth";
+
 import { getQueryValues } from "@/utils/request";
 import { ServiceError } from "@/lib/errors";
 import { requireAuth } from "@/middlewares/auth";
@@ -20,8 +20,8 @@ import type {
 export function protectTaskResource(
   kind: TaskResourceLookupKind,
   access: TaskResourceAccess = "read",
-): MiddlewareHandler<ApiEnv> {
-  return async (context: ApiContext, next) => {
+): MiddlewareHandler<Binding> {
+  return async (context: Event, next) => {
     const params = context.req.param() as Record<string, string>,
       query = getQueryValues(context.req.raw);
     const lookup: TaskResourceLookup = {

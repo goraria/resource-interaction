@@ -27,3 +27,25 @@ export interface TaskPolicyCheckpoint {
   issuedAt: Date;
   expiresAt: Date;
 }
+import type { Context } from "hono";
+import type { User } from "@/database/schema";
+import type { Application } from "@/utils/constant";
+
+export interface AuthContext {
+  application: Application;
+  clientId: string;
+  scopes: string[];
+  sessionId: string | null;
+  user: User;
+}
+
+export interface Session {
+  auth: AuthContext;
+  taskPolicyBody: string;
+}
+
+export interface Binding {
+  Variables: Partial<Session>
+}
+
+export type Event = Context<Binding>;

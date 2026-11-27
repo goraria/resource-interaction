@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import {
   counterMutationSchema,
@@ -23,7 +23,7 @@ import {
   rawUpdateResourceCounter as updateResourceCounterServices,
 } from "@/models/resources";
 
-export async function actListResources(context: ApiContext) {
+export async function actListResources(context: Event) {
   return context.json(
     await listResourcesServices(
       listResourcesSchema.parse(getQueryValues(context.req.raw)),
@@ -31,13 +31,13 @@ export async function actListResources(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actGetResource(context: ApiContext) {
+export async function actGetResource(context: Event) {
   return context.json(
     await getResourceServices(uuidSchema.parse(context.req.param("id")!)),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actResolveResource(context: ApiContext) {
+export async function actResolveResource(context: Event) {
   return context.json(
     await resolveResourceServices(
       resolveResourceSchema.parse(getQueryValues(context.req.raw)),
@@ -45,7 +45,7 @@ export async function actResolveResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateResource(context: ApiContext) {
+export async function actCreateResource(context: Event) {
   const resource = await createResourceServices(
     createResourceSchema.parse(await readRequestBody(context.req)),
     context.get("auth")!,
@@ -55,7 +55,7 @@ export async function actCreateResource(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actUpdateResource(context: ApiContext) {
+export async function actUpdateResource(context: Event) {
   return context.json(
     await updateResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -65,14 +65,14 @@ export async function actUpdateResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteResource(context: ApiContext) {
+export async function actDeleteResource(context: Event) {
   await deleteResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actListResourceCounters(context: ApiContext) {
+export async function actListResourceCounters(context: Event) {
   return context.json(
     await listResourceCountersServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -80,7 +80,7 @@ export async function actListResourceCounters(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUpdateResourceCounter(context: ApiContext) {
+export async function actUpdateResourceCounter(context: Event) {
   return context.json(
     await updateResourceCounterServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -91,7 +91,7 @@ export async function actUpdateResourceCounter(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actListVerifiedReferences(context: ApiContext) {
+export async function actListVerifiedReferences(context: Event) {
   return context.json(
     await listVerifiedReferencesServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -99,7 +99,7 @@ export async function actListVerifiedReferences(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateVerifiedReference(context: ApiContext) {
+export async function actCreateVerifiedReference(context: Event) {
   const reference = await createVerifiedReferenceServices(
     uuidSchema.parse(context.req.param("id")!),
     verifiedReferenceSchema.parse(await readRequestBody(context.req)),
@@ -110,7 +110,7 @@ export async function actCreateVerifiedReference(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actDeleteVerifiedReference(context: ApiContext) {
+export async function actDeleteVerifiedReference(context: Event) {
   await deleteVerifiedReferenceServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,

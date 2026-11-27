@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import { paginationSchema, uuidSchema } from "@/schemas/common";
 import {
@@ -17,14 +17,14 @@ import {
   rawUpdateCollection as updateCollectionServices,
 } from "@/models/collections";
 
-export async function actListMyCollections(context: ApiContext) {
+export async function actListMyCollections(context: Event) {
   const { limit, offset } = paginationSchema.parse(getQueryValues(context.req.raw));
   return context.json(
     await listMyCollectionsServices(context.get("auth")!, limit, offset),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actGetCollection(context: ApiContext) {
+export async function actGetCollection(context: Event) {
   return context.json(
     await getCollectionServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -32,7 +32,7 @@ export async function actGetCollection(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateCollection(context: ApiContext) {
+export async function actCreateCollection(context: Event) {
   const collection = await createCollectionServices(
     createCollectionSchema.parse(await readRequestBody(context.req)),
     context.get("auth")!,
@@ -42,7 +42,7 @@ export async function actCreateCollection(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actUpdateCollection(context: ApiContext) {
+export async function actUpdateCollection(context: Event) {
   return context.json(
     await updateCollectionServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -52,14 +52,14 @@ export async function actUpdateCollection(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteCollection(context: ApiContext) {
+export async function actDeleteCollection(context: Event) {
   await deleteCollectionServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,
   );
   return new Response(null, { status: 204 });
 }
-export async function actListCollectionResources(context: ApiContext) {
+export async function actListCollectionResources(context: Event) {
   return context.json(
     await listCollectionResourcesServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -67,7 +67,7 @@ export async function actListCollectionResources(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actListMyCollectionResources(context: ApiContext) {
+export async function actListMyCollectionResources(context: Event) {
   return context.json(
     await listCollectionResourcesServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -76,7 +76,7 @@ export async function actListMyCollectionResources(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actAddCollectionResource(context: ApiContext) {
+export async function actAddCollectionResource(context: Event) {
   return context.json(
     await addCollectionResourceServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -87,7 +87,7 @@ export async function actAddCollectionResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveCollectionResource(context: ApiContext) {
+export async function actRemoveCollectionResource(context: Event) {
   await removeCollectionResourceServices(
     uuidSchema.parse(context.req.param("id")!),
     uuidSchema.parse(context.req.param("resourceId")!),

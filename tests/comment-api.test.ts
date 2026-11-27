@@ -58,13 +58,13 @@ vi.mock("@/database", () => {
   return { database: db };
 });
 import * as controller from "@/controllers/comments";
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 const resourceId = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const commentId = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
 const parentId = "cccccccc-cccc-4ccc-8ccc-cccccccccccc";
 function app(application = "video") {
   const app = new Hono();
-  app.use("*", async (c: ApiContext, next) => {
+  app.use("*", async (c: Event, next) => {
     c.set("auth", {
       application,
       user: { id: "local-user", externalUserId: "subject" },

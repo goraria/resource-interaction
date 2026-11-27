@@ -1,6 +1,6 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 
-export function actGetCurrentUser(context: ApiContext) {
+export function actGetCurrentUser(context: Event) {
   const auth = context.get("auth")!;
   return context.json(
     {

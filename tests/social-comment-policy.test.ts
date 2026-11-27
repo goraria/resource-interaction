@@ -54,7 +54,7 @@ import {
   rawUpdateResource,
   rawDeleteResource,
 } from "@/models/resources";
-import type { AuthContext } from "@/types/auth";
+import type { AuthContext } from "@/utils/interface";
 const auth = {
   application: "social",
   user: { id: "user", externalUserId: "viewer" },

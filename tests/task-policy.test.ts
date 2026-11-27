@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, expect, it, vi } from "vitest";
-import type { AuthContext } from "@/types/auth";
+import type { AuthContext } from "@/utils/interface";
 const fixture = vi.hoisted(() => ({
   database: vi.fn(),
   grants: vi.fn(),

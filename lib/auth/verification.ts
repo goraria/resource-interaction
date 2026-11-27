@@ -14,7 +14,7 @@ import {
   applicationNamespaces as applications,
   resourceReadScopes,
   resourceWriteScopes,
-} from "@/lib/constants";
+} from "@/utils/constant";
 import { nodeEnv, authUrl } from "@/utils/environment";
 import type { ServiceAccess } from "@/utils/interface";
 async function configuration() {

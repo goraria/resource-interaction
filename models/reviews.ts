@@ -5,7 +5,7 @@ import { reviewsTable, usersTable } from "@/database/schema"
 import { ServiceError } from "@/lib/errors"
 import type { CreateReviewInput, UpdateReviewInput } from "@/schemas/reviews"
 import { rawRequireActiveResourceById } from "@/models/resources"
-import type { AuthContext } from "@/types/auth"
+import type { AuthContext } from "@/utils/interface"
 
 const reviewSelection = {
   id: reviewsTable.id,

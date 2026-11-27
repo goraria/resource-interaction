@@ -4,7 +4,7 @@ import { database } from "@/database"
 import { reportsTable } from "@/database/schema"
 import { ServiceError } from "@/lib/errors"
 import type { CreateReportInput, ResolveReportInput } from "@/schemas/reports"
-import type { AuthContext } from "@/types/auth"
+import type { AuthContext } from "@/utils/interface"
 
 export async function rawListMyReports(auth: AuthContext, limit: number, offset: number) {
   return database

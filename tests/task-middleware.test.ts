@@ -1,11 +1,11 @@
 import { Hono } from "hono"
-import type { ApiContext, ApiEnv } from "@/types/auth"
+import type { Event, Binding, TaskResourceLookupKind } from "@/utils/interface";
 import type { MiddlewareHandler } from "hono"
 import { beforeEach, expect, it, vi } from "vitest";
 const fixture = vi.hoisted(() => ({
   find: vi.fn(),
   check: vi.fn(),
-  require: vi.fn<(access?: string) => MiddlewareHandler<ApiEnv>>(),
+  require: vi.fn<(access?: string) => MiddlewareHandler<Binding>>(),
 }));
 vi.mock("@/services/task-policy", () => ({
   rawFindTaskRequestResource: fixture.find,
@@ -14,7 +14,6 @@ vi.mock("@/services/task-policy", () => ({
 vi.mock("@/middlewares/auth", () => ({ requireAuth: fixture.require }));
 import { protectTaskResource } from "@/middlewares/task-resource";
 
-import type { TaskResourceLookupKind } from "@/utils/interface";
 const pageId = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const reference = {
   application: "task",
@@ -24,7 +23,7 @@ const reference = {
 function app(kind: TaskResourceLookupKind, application?: string) {
   const router = new Hono();
   if (application)
-    router.use("*", async (c: ApiContext, next) => {
+    router.use("*", async (c: Event, next) => {
       c.set("auth", {
         application,
         user: { externalUserId: "central-subject" },

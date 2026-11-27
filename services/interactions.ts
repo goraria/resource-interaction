@@ -26,7 +26,7 @@ import type {
   VoteInput,
 } from "@/schemas/interactions";
 import { rawRequireActiveResourceById } from "@/models/resources"
-import type { AuthContext } from "@/types/auth";
+import type { AuthContext } from "@/utils/interface";
 import { rawAssertSocialCommentTarget } from "@/services/social-comment-policy";
 
 export async function rawListMyFollows(

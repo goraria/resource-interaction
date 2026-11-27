@@ -13,7 +13,7 @@ import type {
   UpdateCollectionInput,
 } from "@/schemas/collections";
 import { rawRequireActiveResourceById } from "@/models/resources"
-import type { AuthContext } from "@/types/auth";
+import type { AuthContext } from "@/utils/interface";
 
 async function checkCollectionOwnership(id: string, auth: AuthContext) {
   const [collection] = await database

@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import {
   createCommentSchema,
@@ -62,7 +62,7 @@ import {
   rawUpdateReview as updateReviewServices,
 } from "@/models/reviews";
 
-function getKey(context: ApiContext) {
+function getKey(context: Event) {
   const { id } = externalResourceQuerySchema.parse(getQueryValues(context.req.raw));
   return {
     ...externalResourceKeySchema.parse({
@@ -73,24 +73,24 @@ function getKey(context: ApiContext) {
       context.get("auth")?.application ?? getQueryValues(context.req.raw).application,
   };
 }
-function getCommentId(context: ApiContext) {
+function getCommentId(context: Event) {
   const { comment } = externalCommentQuerySchema.parse(getQueryValues(context.req.raw));
   return uuidSchema.parse(comment);
 }
-function getReviewId(context: ApiContext) {
+function getReviewId(context: Event) {
   const { review } = externalReviewQuerySchema.parse(getQueryValues(context.req.raw));
   return uuidSchema.parse(review);
 }
-async function getProtectedResource(context: ApiContext) {
+async function getProtectedResource(context: Event) {
   return rawEnsureExternalResource(getKey(context), context.get("auth")!);
 }
-export async function actGetExternalResourceSummary(context: ApiContext) {
+export async function actGetExternalResourceSummary(context: Event) {
   return context.json(
     await getExternalResourceSummaryServices(getKey(context)),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actListExternalComments(context: ApiContext) {
+export async function actListExternalComments(context: Event) {
   const input = listCommentsSchema.parse(getQueryValues(context.req.raw));
   const resource = await rawFindExternalResource(getKey(context));
   if (!resource) {
@@ -118,7 +118,7 @@ export async function actListExternalComments(context: ApiContext) {
     },
   );
 }
-export async function actGetMyExternalResourceState(context: ApiContext) {
+export async function actGetMyExternalResourceState(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await getMyResourceInteractionStateServices(
@@ -128,7 +128,7 @@ export async function actGetMyExternalResourceState(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateExternalComment(context: ApiContext) {
+export async function actCreateExternalComment(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await createCommentServices(
@@ -143,7 +143,7 @@ export async function actCreateExternalComment(context: ApiContext) {
     },
   );
 }
-export async function actUpdateExternalComment(context: ApiContext) {
+export async function actUpdateExternalComment(context: Event) {
   return context.json(
     await updateCommentServices(
       getCommentId(context),
@@ -153,11 +153,11 @@ export async function actUpdateExternalComment(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteExternalComment(context: ApiContext) {
+export async function actDeleteExternalComment(context: Event) {
   await deleteCommentServices(getCommentId(context), context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actReactToExternalComment(context: ApiContext) {
+export async function actReactToExternalComment(context: Event) {
   return context.json(
     await reactToCommentServices(
       uuidSchema.parse(
@@ -170,7 +170,7 @@ export async function actReactToExternalComment(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveExternalCommentReaction(context: ApiContext) {
+export async function actRemoveExternalCommentReaction(context: Event) {
   await removeCommentReactionServices(
     uuidSchema.parse(
       externalResourceQuerySchema.parse(getQueryValues(context.req.raw)).id,
@@ -179,7 +179,7 @@ export async function actRemoveExternalCommentReaction(context: ApiContext) {
   );
   return new Response(null, { status: 204 });
 }
-export async function actListExternalReviews(context: ApiContext) {
+export async function actListExternalReviews(context: Event) {
   const input = listCommentsSchema.parse(getQueryValues(context.req.raw));
   const resource = await rawFindExternalResource(getKey(context));
   if (!resource) {
@@ -201,7 +201,7 @@ export async function actListExternalReviews(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateExternalReview(context: ApiContext) {
+export async function actCreateExternalReview(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await createReviewServices(
@@ -215,7 +215,7 @@ export async function actCreateExternalReview(context: ApiContext) {
     },
   );
 }
-export async function actUpdateExternalReview(context: ApiContext) {
+export async function actUpdateExternalReview(context: Event) {
   return context.json(
     await updateReviewServices(
       getReviewId(context),
@@ -225,11 +225,11 @@ export async function actUpdateExternalReview(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteExternalReview(context: ApiContext) {
+export async function actDeleteExternalReview(context: Event) {
   await deleteReviewServices(getReviewId(context), context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actReactToExternalReview(context: ApiContext) {
+export async function actReactToExternalReview(context: Event) {
   return context.json(
     await reactToReviewServices(
       uuidSchema.parse(
@@ -241,7 +241,7 @@ export async function actReactToExternalReview(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveExternalReviewReaction(context: ApiContext) {
+export async function actRemoveExternalReviewReaction(context: Event) {
   await removeReviewReactionServices(
     uuidSchema.parse(
       externalResourceQuerySchema.parse(getQueryValues(context.req.raw)).id,
@@ -250,7 +250,7 @@ export async function actRemoveExternalReviewReaction(context: ApiContext) {
   );
   return new Response(null, { status: 204 });
 }
-export async function actReactToExternalResource(context: ApiContext) {
+export async function actReactToExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await reactToResourceServices(
@@ -261,12 +261,12 @@ export async function actReactToExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveExternalResourceReaction(context: ApiContext) {
+export async function actRemoveExternalResourceReaction(context: Event) {
   const resource = await getProtectedResource(context);
   await removeResourceReactionServices(resource.id, context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actVoteOnExternalResource(context: ApiContext) {
+export async function actVoteOnExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await voteOnResourceServices(
@@ -277,7 +277,7 @@ export async function actVoteOnExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actSaveExternalResource(context: ApiContext) {
+export async function actSaveExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   const { list } = externalBookmarkQuerySchema.parse(getQueryValues(context.req.raw));
   return context.json(
@@ -290,13 +290,13 @@ export async function actSaveExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnsaveExternalResource(context: ApiContext) {
+export async function actUnsaveExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   const { list } = externalBookmarkQuerySchema.parse(getQueryValues(context.req.raw));
   await unsaveResourceServices(resource.id, list, context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actRateExternalResource(context: ApiContext) {
+export async function actRateExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await rateResourceServices(
@@ -307,14 +307,14 @@ export async function actRateExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actRemoveExternalRating(context: ApiContext) {
+export async function actRemoveExternalRating(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await removeRatingServices(resource.id, context.get("auth")!),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actFollowExternalResource(context: ApiContext) {
+export async function actFollowExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await followResourceServices(
@@ -325,12 +325,12 @@ export async function actFollowExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnfollowExternalResource(context: ApiContext) {
+export async function actUnfollowExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   await unfollowResourceServices(resource.id, context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actSubscribeExternalResource(context: ApiContext) {
+export async function actSubscribeExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await subscribeResourceServices(
@@ -341,12 +341,12 @@ export async function actSubscribeExternalResource(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actUnsubscribeExternalResource(context: ApiContext) {
+export async function actUnsubscribeExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   await unsubscribeResourceServices(resource.id, context.get("auth")!);
   return new Response(null, { status: 204 });
 }
-export async function actShareExternalResource(context: ApiContext) {
+export async function actShareExternalResource(context: Event) {
   const resource = await getProtectedResource(context);
   return context.json(
     await shareResourceServices(
@@ -360,7 +360,7 @@ export async function actShareExternalResource(context: ApiContext) {
     },
   );
 }
-export async function actReportExternalResource(context: ApiContext) {
+export async function actReportExternalResource(context: Event) {
   const key = getKey(context);
   const resource = await rawEnsureExternalResource(key, context.get("auth")!);
   const input = externalReportSchema.parse(await readRequestBody(context.req));

@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import {
   createCommentSchema,
@@ -13,7 +13,7 @@ import {
   rawUpdateComment as updateCommentServices,
 } from "@/models/comments";
 
-export async function actListComments(context: ApiContext) {
+export async function actListComments(context: Event) {
   return context.json(
     await listCommentsServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -23,7 +23,7 @@ export async function actListComments(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateComment(context: ApiContext) {
+export async function actCreateComment(context: Event) {
   const comment = await createCommentServices(
     uuidSchema.parse(context.req.param("id")!),
     createCommentSchema.parse(await readRequestBody(context.req)),
@@ -35,7 +35,7 @@ export async function actCreateComment(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actUpdateComment(context: ApiContext) {
+export async function actUpdateComment(context: Event) {
   return context.json(
     await updateCommentServices(
       uuidSchema.parse(context.req.param("id")!),
@@ -45,7 +45,7 @@ export async function actUpdateComment(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actDeleteComment(context: ApiContext) {
+export async function actDeleteComment(context: Event) {
   await deleteCommentServices(
     uuidSchema.parse(context.req.param("id")!),
     context.get("auth")!,

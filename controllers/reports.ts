@@ -1,4 +1,4 @@
-import type { ApiContext } from "@/types/auth";
+import type { Event } from "@/utils/interface";
 import { getQueryValues, readRequestBody } from "@/utils/request";
 import { paginationSchema, uuidSchema } from "@/schemas/common";
 import {
@@ -13,14 +13,14 @@ import {
   rawResolveReportManagement as resolveReportServices,
 } from "@/models/reports";
 
-export async function actListMyReports(context: ApiContext) {
+export async function actListMyReports(context: Event) {
   const { limit, offset } = paginationSchema.parse(getQueryValues(context.req.raw));
   return context.json(
     await listMyReportsServices(context.get("auth")!, limit, offset),
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actCreateReport(context: ApiContext) {
+export async function actCreateReport(context: Event) {
   const report = await createReportServices(
     createReportSchema.parse(await readRequestBody(context.req)),
     context.get("auth")!,
@@ -30,7 +30,7 @@ export async function actCreateReport(context: ApiContext) {
     headers: { "content-type": "application/json; charset=UTF-8" },
   });
 }
-export async function actListReports(context: ApiContext) {
+export async function actListReports(context: Event) {
   const input = listReportsSchema.parse(getQueryValues(context.req.raw));
   return context.json(
     await listReportsServices(
@@ -42,7 +42,7 @@ export async function actListReports(context: ApiContext) {
     { headers: { "content-type": "application/json; charset=UTF-8" } },
   );
 }
-export async function actResolveReport(context: ApiContext) {
+export async function actResolveReport(context: Event) {
   return context.json(
     await resolveReportServices(
       uuidSchema.parse(context.req.param("id")!),
