@@ -1,6 +1,6 @@
 /** Select only profile fields. No grant/session credential or authorization token. */
 export function formatServiceProfile(
-  profile: import("@/schemas/auth").SsoProfile,
+  profile: import("@/modules/structure/user-profile").SsoProfile,
 ) {
   const username = profile.preferred_username?.trim().toLowerCase();
   return {

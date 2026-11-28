@@ -1,4 +1,4 @@
-import { getApplicationOrigin } from "@/utils/sso-directory";
+import { getApplicationOrigin } from "@/modules/structure/sso-directory";
 import { ServiceError } from "@/lib/errors";
 import { isProduction } from "@/utils/environment";
 export async function assertVideoAccess(

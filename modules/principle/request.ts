@@ -19,7 +19,11 @@ export async function readRequestBody(request: HonoRequest): Promise<unknown> {
   try {
     return JSON.parse(text);
   } catch {
-    throw new HTTPError({ status: 400, statusText: "Bad Request", message: "Invalid JSON body" });
+    throw new HTTPError({
+      status: 400,
+      statusText: "Bad Request",
+      message: "Invalid JSON body",
+    });
   }
 }
 

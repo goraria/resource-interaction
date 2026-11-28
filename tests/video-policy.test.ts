@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-vi.mock("@/utils/sso-directory", () => ({
+vi.mock("@/modules/structure/sso-directory", () => ({
   getServiceOrigin: async (key: string) => {
     const origins: Record<string, string> = {"video":"http://localhost:3031"};
     if (!origins[key]) throw new Error("Unregistered fixture service");

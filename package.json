@@ -20,25 +20,26 @@
     "test:cloud": "vitest run --config vitest.cloud.config.ts"
   },
   "dependencies": {
+    "@better-auth/oauth-provider": "1.7.27",
     "@gorth-com/principle": "0.0.0-alpha.12",
     "@gorth-com/structure": "0.0.0-alpha.12",
-    "@vercel/functions": "^3.11.3",
+    "@vercel/functions": "^3.12.0",
     "@vercel/otel": "^2.3.0",
-    "better-auth": "^1.7.27",
+    "better-auth": "1.7.27",
     "dotenv": "^18.0.10",
     "drizzle-orm": "1.0.0-rc.4",
-    "hono": "^4.13.21",
+    "hono": "^4.13.23",
     "nitro": "3.0.261103-rc",
     "pg": "^8.23.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "prettier": "^3.10.1",
-    "@types/node": "^26.6.6",
+    "@types/node": "^26.6.11",
     "@types/pg": "^8.23.1",
     "drizzle-kit": "1.0.0-rc.4",
     "typescript": "^5.9.3",
-    "vitest": "5.1.1"
+    "vitest": "5.1.2"
   },
   "engines": {
     "node": "24.x",

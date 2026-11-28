@@ -1,5 +1,5 @@
 import type { Event } from "@/utils/interface";
-import { getQueryValues, readRequestBody } from "@/utils/request";
+import { getQueryValues, readRequestBody } from "@/modules/principle/request";
 import { paginationSchema, uuidSchema } from "@/schemas/common";
 import { createReviewSchema, updateReviewSchema } from "@/schemas/reviews";
 import {

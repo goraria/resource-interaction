@@ -2,7 +2,7 @@ import { beforeEach, expect, it, vi } from "vitest";
 vi.mock("@/utils/environment", () => ({
   authUrl: "https://authority.fixture.test", isProduction: true,
 }));
-import { getApplicationOrigin, getServiceOrigin, getSsoDirectory } from "@/utils/sso-directory";
+import { getApplicationOrigin, getServiceOrigin, getSsoDirectory } from "@/modules/structure/sso-directory";
 
 const directory = () => ({
   version: 1, environment: "production", issuer: "https://authority.fixture.test/auth",

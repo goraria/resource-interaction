@@ -1,4 +1,4 @@
-import { readRequestBody } from "@/utils/request";
+import { readRequestBody } from "@/modules/principle/request";
 import type { Event } from "@/utils/interface";
 import { uuidSchema } from "@/schemas/common";
 import { readerCommentModeration } from "@/schemas/reader-moderation";

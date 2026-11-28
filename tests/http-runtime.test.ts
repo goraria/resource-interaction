@@ -3,7 +3,7 @@ import { H3, HTTPError, onError } from "nitro/h3";
 import { expect, it } from "vitest";
 import { serviceHttp } from "@/middlewares/http";
 import { quotaFixture } from "./http-quota-fixture";
-import { getQueryValues } from "@/utils/request";
+import { getQueryValues } from "@/modules/principle/request";
 
 function app(options: Parameters<typeof serviceHttp>[0] = { maxBodySize: 64 }) {
   return new H3({ silent: true }).use(serviceHttp({ ...options, store: options.store ?? quotaFixture() }));

@@ -1,7 +1,7 @@
 import type { Binding, Event } from "@/utils/interface";
 import type { MiddlewareHandler } from "hono";
 
-import { getQueryValues } from "@/utils/request";
+import { getQueryValues } from "@/modules/principle/request";
 import { ServiceError } from "@/lib/errors";
 import { requireAuth } from "@/middlewares/auth";
 import { assertSocialAccess } from "@/services/social-policy";

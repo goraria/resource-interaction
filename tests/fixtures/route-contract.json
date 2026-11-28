@@ -1,4 +1,5 @@
 [
+  "GET /",
   "PATCH /resource/reader/comment/:id/moderation",
   "DELETE /resource/bookmark/:resourceType",
   "DELETE /resource/comment/:resourceType",

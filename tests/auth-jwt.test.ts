@@ -6,7 +6,7 @@ import {
   generateKeyPair,
   SignJWT,
 } from "@gorth-com/principle/cores/jose";
-vi.mock("@/utils/sso-directory", () => ({
+vi.mock("@/modules/structure/sso-directory", () => ({
   getServiceClientApplication: async (_service: string, _audience: string, clientId: string) =>
     localClients.find(([id]) => id === clientId)?.[1] ??
     (["gorth-video-streaming-platform", "video-production-v2"].includes(clientId)
@@ -101,7 +101,7 @@ async function denied(value: string, status = 401) {
     await verifyServiceRequest(request(value), "write");
     throw new Error("Unexpected authorization success");
   } catch (error) {
-    expect(serviceAuthFailure(error).status).toBe(status);
+    expect((await serviceAuthFailure(error, request(value))).status).toBe(status);
   }
 }
 it("uses native JWT verification without online session/profile checks; JWKS stays cached", async () => {
@@ -228,9 +228,10 @@ it("middleware preserves downstream errors rather than turning them into 401", a
     ).status,
   ).toBe(409);
 });
-it("maps infrastructure failures to unavailable instead of logging a user out", () => {
-  const response = serviceAuthFailure(
+it("maps infrastructure failures to unavailable instead of logging a user out", async () => {
+  const response = await serviceAuthFailure(
     new Error("private-key-or-provider-details"),
+    new Request("https://service.fixture.test"),
   );
   expect(response.status).toBe(503);
 });

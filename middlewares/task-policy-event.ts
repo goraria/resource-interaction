@@ -9,7 +9,7 @@ export function requireTaskPolicyEvent(): MiddlewareHandler<Binding> {
     try {
       await verifyMachineRequest(context.req.raw, "task:resource:policy");
     } catch (error) {
-      return serviceAuthFailure(error);
+      return serviceAuthFailure(error, context.req.raw);
     }
     const body = await context.req.text();
     if (Buffer.byteLength(body) > 1500000)

@@ -1,4 +1,4 @@
-import { readRequestBody } from "@/utils/request";
+import { readRequestBody } from "@/modules/principle/request";
 import type { Event } from "@/utils/interface";
 import { videoSubscriberSchema } from "@/schemas/video-subscriber";
 import { rawListVideoSubscribers as listVideoSubscribersServices } from "@/services/video-subscriber";

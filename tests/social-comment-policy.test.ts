@@ -26,7 +26,7 @@ vi.mock("@/database", () => ({
     },
   },
 }));
-vi.mock("@/utils/sso-directory", () => ({
+vi.mock("@/modules/structure/sso-directory", () => ({
   getServiceOrigin: async (key: string) => {
     const origins: Record<string, string> = {"social":"https://social.example.test"};
     if (!origins[key]) throw new Error("Unregistered fixture service");
